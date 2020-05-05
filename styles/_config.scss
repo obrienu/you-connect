@@ -1,0 +1,22 @@
+$text-gradient:linear-gradient(38deg, rgba(91,216,252,1) 0%, rgba(92,246,154,1) 53%);
+$text-gradient-alt: rgb(91,216,252);
+$text-green: #5cf69a;
+$background-green: #5bd8fc;
+
+
+@mixin mediaMd {
+    @media screen and (min-width: 501px) {
+      @content;
+    }
+  }
+  @mixin mediaLg {
+    @media screen and (min-width: 769px) {
+      @content;
+    }
+  }
+  @mixin mediaXl {
+    @media screen and (min-width: 1171px) {
+      @content;
+    }
+  }
+  
