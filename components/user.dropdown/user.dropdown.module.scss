@@ -1,0 +1,32 @@
+@import '../../styles/config.scss';
+
+.dropdown {
+    width: 100vw;
+    height: 0;
+    @include easeOut;
+    display: flex;
+    flex-flow: nowrap row;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    top: 7rem;
+    left: 0;
+    overflow: hidden;
+    background: $background-alt;
+}
+
+.animateDropdown{
+    animation: drop 300ms ease-out 200ms;
+    animation-direction: normal;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes drop{
+    from{
+        height: 0;
+    }
+    to{
+        height: 5rem;
+    }
+}
