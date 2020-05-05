@@ -1,0 +1,14 @@
+@import '../../styles/config.scss';
+
+.topHeader{
+    width: 100vw;
+    justify-content: center;
+    background: $background-alt;
+    display: flex;
+    flex-flow: row nowrap;
+    height: 3rem;
+    line-height: 3rem;
+    position: fixed;
+    top:0;
+    left: 0;
+}
