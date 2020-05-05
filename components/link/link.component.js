@@ -4,11 +4,14 @@ import style from './link.module.scss';
 
 
 const Links = (props) => {
-    const { icon, pagePath, dropdownMenu } = props;
+    const { icon, pagePath, dropdownMenu, isMobile, closeMenu } = props;
 
     const handleClick = () => {
        if(typeof dropdownMenu === 'function'){
-        dropdownMenu();
+        return dropdownMenu();
+       }
+       if(isMobile){
+           return closeMenu();
        }
     }
     return (
