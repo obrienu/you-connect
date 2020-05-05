@@ -1,4 +1,5 @@
-import Header from '../components/pcheader/pcheader.component';
+import Header from '../containers/header/header.container';
+
 export default function Home() {
   return (
     <div className="container">

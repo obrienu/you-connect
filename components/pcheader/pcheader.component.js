@@ -1,36 +1,17 @@
-import React from 'react';
 import Links from '../link/link.component';
-import Logo from '../logo/logo.component';
 import UserDropdown from '../user.dropdown/user.dropdown.component';
 import style from './pcheader.module.scss';
 
-class Header extends React.Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            userMenu : false
-        }
-
-        this.toggleUserMenu = this.toggleUserMenu.bind(this)
-    }
-
-toggleUserMenu(){
-    this.setState({
-        userMenu: !this.state.userMenu
-    })
-}
-    render(){
+const Header = (props) => {
+    const {dropdownMenu, isDown} = props
         return(
             <header className={style.header}>
-            <div className={style.topHeader}>
-            <Logo />
-            </div>
             <nav className={style.nav}>
                 <Links icon="laptop-house" pagePath="/">
                     Home
                 </Links>
                 <Links
-                dropdownMenu={this.toggleUserMenu}
+                dropdownMenu={dropdownMenu}
                 icon="user" pagePath="">
                     user
                 </Links>
@@ -51,12 +32,12 @@ toggleUserMenu(){
                 </Links>
             </nav>
             <UserDropdown
-                dropdownMenu= {this.toggleUserMenu}
-             isDown={this.state.userMenu} 
+                dropdownMenu= {dropdownMenu}
+             isDown={isDown} 
              />
             </ header>
         )
-    }
+    
 }
 
 export default Header;
