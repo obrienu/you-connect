@@ -1,0 +1,20 @@
+@import '../../styles/config.scss';
+
+
+.icon{
+    color: $text-green;
+    font-size: 1rem;
+}
+
+.first{
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: -2px;
+    color: $background-green;
+}
+
+.second{
+    font-size: 1.8rem;
+    color: $text-green;
+    letter-spacing: -2px;
+}
