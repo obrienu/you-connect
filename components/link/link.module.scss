@@ -1,0 +1,31 @@
+@import '../../styles/config.scss';
+
+.link{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    &:hover{
+        .icon{
+            color: $text-green;
+        }
+        .name{
+            color: $text-green;
+        }
+    }
+}
+
+.icon {
+    font-size: 1.8rem;
+    color: $text-gradient-alt;
+    @include easeOut;
+}
+
+.name{
+    padding-top: 0.3rem;
+    font-size: 0.6rem;
+    @include easeOut;
+    letter-spacing: 2px;
+    
+}
