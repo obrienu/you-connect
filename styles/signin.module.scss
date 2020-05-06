@@ -1,0 +1,10 @@
+@import './config.scss';
+
+.signin{
+    padding-top: 3rem;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
