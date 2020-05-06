@@ -1,0 +1,16 @@
+@import '../../styles/config';
+
+.card{
+    width: 90%;
+    margin: auto;
+    box-shadow: 0px 0px 2px 1px #00000040;
+    background-color: #ffffff;
+    padding: 1rem 0;
+
+    @include mediaMd{
+        width: 60%;
+    }
+    @include mediaLg{
+        width: 40%;
+    }
+}
