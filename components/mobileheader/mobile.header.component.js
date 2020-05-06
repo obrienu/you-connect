@@ -78,7 +78,7 @@ const MobileHeader = ({ isOpen, isMobile, closeMenu }) => {
         <>
             <Links isMobile={isMobile}
                 closeMenu={closeMenu}
-                icon="sign-in-alt" pagePath="/">
+                icon="sign-in-alt" pagePath="/sign-in">
                 sign in
             </Links>
             <Links isMobile={isMobile}
