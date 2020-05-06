@@ -1,0 +1,11 @@
+@import '../../styles/config.scss';
+
+.input{
+    width: 90%;
+    display: block;
+    margin: 1rem auto;
+    height: 2rem;
+    padding-left: 1rem;
+    outline: none;
+    border: solid 1px #00000040;
+}
