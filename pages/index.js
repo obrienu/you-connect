@@ -1,9 +1,14 @@
-import Header from '../containers/header/header.container';
+import Layout from '../containers/layout/layout.container';
 
-export default function Home() {
+const Home = () => {
   return (
     <div className="container">
-      <Header />
+      <Layout>
+        
+      </Layout>
+
     </div>
   )
 }
+
+export default Home;

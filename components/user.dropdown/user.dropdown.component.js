@@ -25,7 +25,7 @@ const signedInLinks = (
 )
 const signedOutLinks = (
     <>
-        <Links icon="sign-in-alt" pagePath="/">
+        <Links icon="sign-in-alt" pagePath="/sign-in">
             sign in
         </Links>
         <Links icon="registered" pagePath="/register">
