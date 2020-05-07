@@ -2,7 +2,7 @@ import style from './custom.button.module.scss'
 
 const Button = (props) => {
     const { onClick, type, block, isActive } = props;
-    const handleClick = () => onClick();
+    const handleClick = () => onClick && onClick();
 
     return(
         <button
