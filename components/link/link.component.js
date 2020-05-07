@@ -14,11 +14,16 @@ const Links = (props) => {
            return closeMenu();
        }
     }
+    const handleHover = () => {
+       if(typeof dropdownMenu === 'function'){
+        return dropdownMenu();
+       }
+    }
     return (
         <>
             <Link href={pagePath}>
                 <a 
-                onMouseEnter={handleClick}
+                onMouseEnter={handleHover}
                 onClick={handleClick}
                 className={style.link}
                 >

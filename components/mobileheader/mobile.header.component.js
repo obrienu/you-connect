@@ -42,11 +42,7 @@ const MobileHeader = ({ isOpen, isMobile, closeMenu }) => {
     );
     const mainLinks = (
         <>
-            <Links isMobile={isMobile}
-                closeMenu={closeMenu}
-                icon="laptop-house" pagePath="/">
-                Home
-                    </Links>
+            
             <Links isMobile={isMobile}
                 closeMenu={closeMenu}
                 icon="search" pagePath="/search">
@@ -96,9 +92,15 @@ const MobileHeader = ({ isOpen, isMobile, closeMenu }) => {
                 <Logo />
             </div>
             <nav className={style.nav} >
-                {mainLinks}
+            <Links isMobile={isMobile}
+                closeMenu={closeMenu}
+                icon="laptop-house" pagePath="/">
+                Home
+                    </Links>
                 {userLoggedLinks}
                 {userLoggedOutLinks}
+                {mainLinks}
+
             </nav>
         </div>
 
