@@ -22,14 +22,15 @@
     background-color: $button-orange;
     animation:buttonDown 300ms ease-out;
     animation-iteration-count: 1;
-    animation-fill-mode: forwards; 
+    box-shadow: 0px 4px #bb7b1c;
+
 }
 @keyframes buttonDown{
     from{
         box-shadow: 0px 4px #6f9a37;
     }
     to{
-        box-shadow: 0px 0px #6f9a37;
+        box-shadow: 0px 0px $button-orange;
         transform: translateY(4px)
     }
 }

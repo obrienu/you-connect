@@ -1,10 +1,17 @@
 @import './config.scss';
 
 .signin{
-    padding-top: 3rem;
+    padding: 3rem 0;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
     height: 100%;
+}
+
+.label{
+    letter-spacing: 2px;
+    color: #0000009f;
+    width: 90%;
+    margin: 0 auto -0.8rem;
 }
