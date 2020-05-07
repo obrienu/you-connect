@@ -14,6 +14,7 @@ class SignIn extends React.Component {
             password: "",
             user: false,
             escort: true,
+            error: ""
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -45,6 +46,16 @@ class SignIn extends React.Component {
     }
 
     render() {
+
+        const errorIndicator = (
+            <div 
+            className="error"
+            style={{margin: "1rem auto", width: "90%"}}
+            >
+                {this.state.error }
+                </div>
+        )
+
         return (
             <>
                 <Layout>
@@ -71,6 +82,7 @@ class SignIn extends React.Component {
                                     type="text"
                                 >USER</Button>
                             </div>
+                            {this.state.error && errorIndicator}
                             <form>
                                 <Input
                                     name="email"
