@@ -1,4 +1,6 @@
-import { auth, firestore } from './firebase';
+import { auth, firestore, functions } from './firebase';
+
+const addUserType = functions.httpsCallable('setAccountType');
 
 export const loginUser = async (email, password, type) => {
     try {
@@ -19,6 +21,7 @@ export const registerNewUser = async (obj, type) => {
         delete obj.password;
         delete obj.cpassword;
         const userAuth = await auth.createUserWithEmailAndPassword(email, password)
+        const result = await addUserType({ email, type });
         const manageUser = await auth.currentUser;
         await manageUser.sendEmailVerification();
         await manageUser.updateProfile({
@@ -28,6 +31,7 @@ export const registerNewUser = async (obj, type) => {
             userType: type
         });
         await saveUserDetails(obj, type, userAuth.user.uid)
+        await auth.signOut();
         return true
     } catch (error) {
         return ({ error: error.message })

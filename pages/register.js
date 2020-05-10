@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Router from 'next/router';
 import Layout from '../containers/layout/layout.container';
 import Card from '../containers/auth.card/auth.card.container';
 import Input from '../components/custom.input/custom.input.component';
@@ -75,8 +76,12 @@ const Register = () => {
     const handleUserReg = async (obj) => {
         try {
             userInputValidator(obj)
-            await registerNewUser(obj, 'users')
-            return resetState()
+            const registered = await registerNewUser(obj, 'users')
+            if (registered.error) {
+                throw new Error(registered.error)
+            }
+            resetState();
+            return Router.push('/sign-in')
         } catch (err) {
             setFormState({
                 ...formState,
@@ -88,8 +93,12 @@ const Register = () => {
     const handleEscortReg = async (obj) => {
         try {
             userInputValidator(obj)
-            await registerNewUser(obj, 'escorts')
-            return resetState()
+            const registered = await registerNewUser(obj, 'escorts');
+            if (registered.error) {
+                throw new Error(registered.error)
+            }
+            resetState();
+            return Router.push('/sign-in')
         } catch (err) {
             setFormState({
                 ...formState,

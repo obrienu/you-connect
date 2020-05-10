@@ -6,10 +6,16 @@ export const AuthContext = createContext();
 
 export function AuthContextProvider(props) {
     const [isAuthenticated, setIsAuthenticated] = useState(null)
+    const [accountType, setAccountType] = useState(null)
     useEffect(() => {
-        let unsubscribeFromAuth = auth.onAuthStateChanged(function (user) {
+        let unsubscribeFromAuth = auth.onAuthStateChanged(async function (user) {
             if (user) {
+                const { claims } = await user.getIdTokenResult()
                 setIsAuthenticated(user)
+                if (claims) {
+                    setAccountType(claims.accountType)
+                }
+
             } else {
                 setIsAuthenticated(null)
             }
@@ -23,7 +29,7 @@ export function AuthContextProvider(props) {
 
     return (
         <AuthContext.Provider
-            value={{ isAuthenticated }}
+            value={{ isAuthenticated, accountType }}
         >
             {props.children}
         </AuthContext.Provider>
