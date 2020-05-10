@@ -1,10 +1,12 @@
+import React, { useContext } from 'react';
+import { AuthContext } from '../../context/auth.context';
 import style from './mobile.header.module.scss';
 import Links from '../link/link.component';
 import Logo from '../logo/logo.component';
 
-
 const MobileHeader = ({ isOpen, isMobile, closeMenu }) => {
 
+    const { isAuthenticated } = useContext(AuthContext);
     const userLoggedLinks = (
         <>
             <Links isMobile={isMobile}
@@ -42,7 +44,7 @@ const MobileHeader = ({ isOpen, isMobile, closeMenu }) => {
     );
     const mainLinks = (
         <>
-            
+
             <Links isMobile={isMobile}
                 closeMenu={closeMenu}
                 icon="search" pagePath="/search">
@@ -86,19 +88,19 @@ const MobileHeader = ({ isOpen, isMobile, closeMenu }) => {
         </>
     );
 
+
     return (
         <div className={isOpen ? `${style.openNav} ${style.mobileNav}` : style.mobileNav}>
             <div className={style.logo}>
                 <Logo />
             </div>
             <nav className={style.nav} >
-            <Links isMobile={isMobile}
-                closeMenu={closeMenu}
-                icon="laptop-house" pagePath="/">
-                Home
+                <Links isMobile={isMobile}
+                    closeMenu={closeMenu}
+                    icon="laptop-house" pagePath="/">
+                    Home
                     </Links>
-                {userLoggedLinks}
-                {userLoggedOutLinks}
+                {isAuthenticated ? userLoggedLinks : userLoggedOutLinks}
                 {mainLinks}
 
             </nav>

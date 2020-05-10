@@ -1,25 +1,27 @@
+import React, { useContext } from 'react';
+import { AuthContext } from '../../context/auth.context';
 import style from './user.dropdown.module.scss';
 import Links from '../link/link.component';
 
 const signedInLinks = (
     <>
-        <Links icon={["far","user-circle" ]}pagePath="/">
-                profile
+        <Links icon={["far", "user-circle"]} pagePath="/">
+            profile
         </Links>
         <Links icon={["far", "comments"]} pagePath="/">
-                messages
+            messages
         </Links>
         <Links icon="images" pagePath="/">
-                gallery
+            gallery
         </Links>
         <Links icon="business-time" pagePath="/">
-                services
+            services
         </Links>
         <Links icon={["fas", "star-half-alt"]} pagePath="/">
-                reviews
+            reviews
         </Links>
         <Links icon={["fas", "sign-out-alt"]} pagePath="">
-                sign out
+            sign out
         </Links>
     </>
 )
@@ -34,23 +36,25 @@ const signedOutLinks = (
     </>
 )
 
+
+
 const UserDropdown = (props) => {
-    const {isDown, dropdownMenu} = props;
-    const {dropdown, animateDropdown} = style;
+    const { isAuthenticated } = useContext(AuthContext);
+    const { isDown, dropdownMenu } = props;
+    const { dropdown, animateDropdown } = style;
 
     const handleClick = () => {
-        if(typeof dropdownMenu === 'function'){
+        if (typeof dropdownMenu === 'function') {
             dropdownMenu();
         }
-     }
-     
+    }
+
     return (
         <nav
-        onMouseLeave={handleClick}
-        className={ !isDown ? dropdown : `${dropdown} ${animateDropdown}`}
-         >
-            {signedOutLinks}
-            {signedInLinks}
+            onMouseLeave={handleClick}
+            className={!isDown ? dropdown : `${dropdown} ${animateDropdown}`}
+        >
+            {isAuthenticated ? signedInLinks : signedOutLinks}
         </nav>
     )
 };
