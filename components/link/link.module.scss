@@ -1,40 +1,40 @@
-@import '../../styles/config.scss';
+@import "../../styles/config.scss";
 
-.link{
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
+.link {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 
-    &:hover{
-        .icon{
-            color: $text-green;
-        }
-        .name{
-            color: $text-green;
-        }
+  &:hover {
+    .icon {
+      color: $text-green;
     }
+    .name {
+      color: $text-green;
+    }
+  }
 }
 
 .icon {
-    font-size: 2.5rem;
-    color: $text-gradient-alt;
-    @include easeOut;
+  font-size: 2.5rem;
+  color: $text-gradient-alt;
+  @include easeOut;
 
-    @include mediaLg{
-        font-size: 1.8rem;
-    }
+  @include mediaLg {
+    font-size: 1.8rem;
+  }
 }
 
-.name{
-    padding-top: 0.3rem;
-    font-size: 1rem;
-    @include easeOut;
-    letter-spacing: -0.8px;
-    
-    @include mediaLg{
-        font-size: 0.6rem;
-        letter-spacing: 2px;
-    }
+.name {
+  padding-top: 0.3rem;
+  font-size: 1rem;
+  @include easeOut;
+  letter-spacing: -0.8px;
 
+  @include mediaLg {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+  }
 }
