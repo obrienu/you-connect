@@ -3,11 +3,10 @@ import Logo from '../logo/logo.component';
 import MenuButton from '../menu.button/menu.button.component';
 
 
-const LogoHeader = (props) => {
-    const { openMenu } = props;
+const LogoHeader = () => {
     return (
         <div className={style.topHeader}>
-            <MenuButton openMenu={openMenu} />
+            <MenuButton />
             <Logo />
         </div>
 

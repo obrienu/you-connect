@@ -3,7 +3,6 @@ import UserDropdown from '../user.dropdown/user.dropdown.component';
 import style from './pcheader.module.scss';
 
 const Header = (props) => {
-    const { dropdownMenu, isDown } = props
     return (
         <header className={style.header}>
             <nav className={style.nav}>
@@ -11,7 +10,7 @@ const Header = (props) => {
                     Home
                 </Links>
                 <Links
-                    dropdownMenu={dropdownMenu}
+                    dropdown={true}
                     icon="user" pagePath="">
                     user
                 </Links>
@@ -32,8 +31,6 @@ const Header = (props) => {
                 </Links>
             </nav>
             <UserDropdown
-                dropdownMenu={dropdownMenu}
-                isDown={isDown}
             />
         </ header>
     )

@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../../context/auth.context';
 import style from './user.dropdown.module.scss';
 import Links from '../link/link.component';
+import { HeaderContext } from '../../context/header.context'
+
 
 const signedInLinks = (
     <>
@@ -20,7 +22,9 @@ const signedInLinks = (
         <Links icon={["fas", "star-half-alt"]} pagePath="/">
             reviews
         </Links>
-        <Links icon={["fas", "sign-out-alt"]} pagePath="">
+        <Links icon={["fas", "sign-out-alt"]}
+            isSignOut={true}
+        >
             sign out
         </Links>
     </>
@@ -38,21 +42,15 @@ const signedOutLinks = (
 
 
 
-const UserDropdown = (props) => {
+const UserDropdown = () => {
+    const { desktopMenu } = useContext(HeaderContext);
     const { isAuthenticated } = useContext(AuthContext);
-    const { isDown, dropdownMenu } = props;
     const { dropdown, animateDropdown } = style;
 
-    const handleClick = () => {
-        if (typeof dropdownMenu === 'function') {
-            dropdownMenu();
-        }
-    }
 
     return (
         <nav
-            onMouseLeave={handleClick}
-            className={!isDown ? dropdown : `${dropdown} ${animateDropdown}`}
+            className={!desktopMenu ? dropdown : `${dropdown} ${animateDropdown}`}
         >
             {isAuthenticated ? signedInLinks : signedOutLinks}
         </nav>

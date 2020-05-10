@@ -1,38 +1,63 @@
+import React, { useContext } from 'react';
+import Router from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import style from './link.module.scss';
-
+import { HeaderContext } from '../../context/header.context'
+import { auth } from '../../firebase/firebase';
 
 const Links = (props) => {
-    const { icon, pagePath, dropdownMenu, isMobile, closeMenu } = props;
+    const { icon, pagePath, dropdown, isMobile, isSignOut } = props;
+    const { dispatch } = useContext(HeaderContext);
+    const handleClick = async () => {
+        if (isSignOut) {
+            await auth.signOut();
+            Router.push("/");
+        };
 
-    const handleClick = () => {
-       if(typeof dropdownMenu === 'function'){
-        return dropdownMenu();
-       }
-       if(isMobile){
-           return closeMenu();
-       }
+        if (dropdown) {
+            return dispatch({ type: "OPEN DESKTOP" });
+        }
+
+        if (isMobile) {
+            return dispatch({ type: "CLOSE MOBILE" });
+        }
+
     }
     const handleHover = () => {
-       if(typeof dropdownMenu === 'function'){
-        return dropdownMenu();
-       }
+        if (dropdown) {
+            return dispatch({ type: "OPEN DESKTOP" });
+        }
     }
-    return (
-        <>
-            <Link href={pagePath}>
-                <a 
-                onMouseEnter={handleHover}
-                onClick={handleClick}
-                className={style.link}
-                >
-                    <FontAwesomeIcon className={style.icon} icon={icon}/>
-                    <span className={style.name}>{props.children.toUpperCase()}</span>
-                </a>
-            </Link>
-        </>
-    )
+
+    {
+        return pagePath ?
+            (<>
+                <Link href={pagePath}>
+                    <a
+                        onMouseEnter={handleHover}
+                        onClick={handleClick}
+                        className={style.link}
+                    >
+                        <FontAwesomeIcon className={style.icon} icon={icon} />
+                        <span className={style.name}>{props.children.toUpperCase()}</span>
+                    </a>
+                </Link>
+            </>)
+            : (
+                <>
+                    <a
+                        onMouseEnter={handleHover}
+                        onClick={handleClick}
+                        className={style.link}
+                    >
+                        <FontAwesomeIcon className={style.icon} icon={icon} />
+                        <span className={style.name}>{props.children.toUpperCase()}</span>
+                    </a>
+                </>
+            )
+    }
+
 };
 
 export default Links;
