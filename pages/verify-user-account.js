@@ -10,24 +10,32 @@ const VerifyUserAccount = () => {
     const handleClick = () => setVerificationSent(verifyUserAccount());
 
     const { isAuthenticated } = useContext(AuthContext);
+    const verifiedAccounts = <p>Your account has already been verified</p>
+    const unVerifiedAccount = <>
+        {verificationSent ?
+            <p>A new verification link has been sent to your email address {isAuthenticated.email} . Please check your inbox and click the verification link</p>
+            :
+            <>
+                <p>Your account is yet to be verified. Please check your email {isAuthenticated.email} for a verification link</p>
+                <p>If you do not get this email please Click the button below to recieve a new verification link</p>
+                <div style={{ margin: "auto" }}>
+                    <Button
+                        onClick={handleClick}
+                    >RESEND VERIFICATION EMAIL</Button>
+                </div>
+            </>
+        }
+    </>
+
     return (
         <Layout>
             {
                 isAuthenticated &&
                 <div className="userVerificationPage">
                     <h1 className="headerMd">User Account Verification</h1>
-                    {verificationSent ?
-                        <p>A new verification link has been sent to your email address {isAuthenticated.email} . Please check your inbox and click the verification link</p>
-                        :
-                        <>
-                            <p>Your account is yet to be verified. Please check your email {isAuthenticated.email} for a verification link</p>
-                            <p>If you do not get this email please Click the button below to recieve a new verification link</p>
-                            <div style={{ margin: "auto" }}>
-                                <Button
-                                    onClick={handleClick}
-                                >RESEND VERIFICATION EMAIL</Button>
-                            </div>
-                        </>
+                    {isAuthenticated.emailVerified ?
+                        verifiedAccounts
+                        : unVerifiedAccount
                     }
                 </div>
             }
