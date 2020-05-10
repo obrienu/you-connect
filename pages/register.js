@@ -8,6 +8,7 @@ import Textarea from '../components/custom.textarea/custom.textarea.component';
 import style from '../styles/signin.module.scss';
 import { states, gender, bodyType } from '../helper/select.options';
 import { userInputValidator } from '../helper/auth.input.validator';
+import { registerNewUser } from '../firebase/firebase.auth';
 
 const Register = () => {
     const [formState, setFormState] = useState({
@@ -71,24 +72,26 @@ const Register = () => {
         return handleEscortReg(escortObj)
     }
 
-    const handleUserReg = (obj) => {
+    const handleUserReg = async (obj) => {
         try {
             userInputValidator(obj)
-            resetState()
+            await registerNewUser(obj, 'users')
+            return resetState()
         } catch (err) {
-            setState({
+            setFormState({
                 ...formState,
                 error: err.message
             })
         }
     }
 
-    const handleEscortReg = (obj) => {
+    const handleEscortReg = async (obj) => {
         try {
             userInputValidator(obj)
-            resetState()
+            await registerNewUser(obj, 'escorts')
+            return resetState()
         } catch (err) {
-            setState({
+            setFormState({
                 ...formState,
                 error: err.message
             })
@@ -96,7 +99,7 @@ const Register = () => {
     }
 
     const resetState = () => {
-        setFormtate({
+        setFormState({
             displayName: "",
             email: "",
             password: "",
