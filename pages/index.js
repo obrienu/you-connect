@@ -4,7 +4,6 @@ import Layout from '../containers/layout/layout.container';
 
 const Home = () => {
   const { isAuthenticated } = useContext(AuthContext);
-  console.log(isAuthenticated)
   return (
     <div className="container">
       <Layout>

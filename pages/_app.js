@@ -1,6 +1,6 @@
 import '../styles/global.scss';
 import { AuthContextProvider } from '../context/auth.context';
-import { HeaderContextProvider } from '../context/header.context';
+import { StateContextProvider } from '../context/app.context';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { faUser, faAddressBook, faRegistered, far } from '@fortawesome/free-regular-svg-icons';
@@ -24,9 +24,9 @@ library.add(fab, fas, far, faImages, faRegistered, faSignOutAlt, faSignInAlt, fa
 export default function App({ Component, pageProps }) {
     return (
         <AuthContextProvider>
-            <HeaderContextProvider>
+            <StateContextProvider>
                 <Component {...pageProps} />
-            </HeaderContextProvider>
+            </StateContextProvider>
         </AuthContextProvider>
     )
 };

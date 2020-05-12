@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import { HeaderContext } from '../../context/header.context'
+import { StateContext } from '../../context/app.context'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './menu.button.module.scss';
 
 const MenuButton = () => {
-    const { dispatch } = useContext(HeaderContext);
+    const { dispatch } = useContext(StateContext);
     return (
         <FontAwesomeIcon
             onClick={() => dispatch({ type: "OPEN MOBILE" })}

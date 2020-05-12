@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import Header from '../header/header.container';
 import style from './layout.module.scss';
-import { HeaderContext } from '../../context/header.context';
+import { StateContext } from '../../context/app.context';
 
 const Layout = (props) => {
-    const { dispatch } = useContext(HeaderContext);
+    const { dispatch } = useContext(StateContext);
 
     return (
         <>

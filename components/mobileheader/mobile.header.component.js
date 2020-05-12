@@ -3,13 +3,13 @@ import { AuthContext } from '../../context/auth.context';
 import style from './mobile.header.module.scss';
 import Links from '../link/link.component';
 import Logo from '../logo/logo.component';
-import { HeaderContext } from '../../context/header.context';
+import { StateContext } from '../../context/app.context';
 
 const MobileHeader = ({ isMobile }) => {
 
 
     const { isAuthenticated } = useContext(AuthContext);
-    const { mobileMenu } = useContext(HeaderContext);
+    const { mobileMenu } = useContext(StateContext);
     const userLoggedLinks = (
         <>
             <Links isMobile={isMobile}

@@ -1,4 +1,4 @@
-export const headerReducer = (state, action) => {
+export const stateReducer = (state, action) => {
     switch (action.type) {
         case "OPEN MOBILE":
             return ({

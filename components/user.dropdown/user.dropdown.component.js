@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../../context/auth.context';
 import style from './user.dropdown.module.scss';
 import Links from '../link/link.component';
-import { HeaderContext } from '../../context/header.context'
+import { StateContext } from '../../context/app.context'
 
 
 const signedInLinks = (
@@ -43,7 +43,7 @@ const signedOutLinks = (
 
 
 const UserDropdown = () => {
-    const { desktopMenu } = useContext(HeaderContext);
+    const { desktopMenu } = useContext(StateContext);
     const { isAuthenticated } = useContext(AuthContext);
     const { dropdown, animateDropdown } = style;
 

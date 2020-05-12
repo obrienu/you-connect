@@ -3,12 +3,12 @@ import Router from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import style from './link.module.scss';
-import { HeaderContext } from '../../context/header.context'
+import { StateContext } from '../../context/app.context';
 import { auth } from '../../firebase/firebase';
 
 const Links = (props) => {
     const { icon, pagePath, dropdown, isMobile, isSignOut } = props;
-    const { dispatch } = useContext(HeaderContext);
+    const { dispatch } = useContext(StateContext);
     const handleClick = async () => {
         if (isSignOut) {
             await auth.signOut();
