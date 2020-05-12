@@ -20,6 +20,16 @@ export const stateReducer = (state, action) => {
                 ...state,
                 desktopMenu: false,
             });
+        case "START LOADING":
+            return ({
+                ...state,
+                isLoading: true,
+            });
+        case "STOP LOADING":
+            return ({
+                ...state,
+                isLoading: false,
+            });
         default:
             return state;
     }

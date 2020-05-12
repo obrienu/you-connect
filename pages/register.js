@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Router from 'next/router';
 import Layout from '../containers/layout/layout.container';
 import Card from '../containers/auth.card/auth.card.container';
@@ -10,8 +10,12 @@ import style from '../styles/signin.module.scss';
 import { states, gender, bodyType } from '../helper/select.options';
 import { userInputValidator } from '../helper/auth.input.validator';
 import { registerNewUser } from '../firebase/firebase.auth';
+import { StateContext } from '../context/app.context'
 
 const Register = () => {
+
+    const { dispatch } = useContext(StateContext);
+
     const [formState, setFormState] = useState({
         displayName: "",
         email: "",
@@ -43,6 +47,7 @@ const Register = () => {
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
+        dispatch({ type: "START LOADING" })
         const { displayName,
             email,
             password,
@@ -87,6 +92,7 @@ const Register = () => {
                 ...formState,
                 error: err.message
             })
+            dispatch({ type: "STOP LOADING" })
         }
     }
 
@@ -104,6 +110,7 @@ const Register = () => {
                 ...formState,
                 error: err.message
             })
+            dispatch({ type: "STOP LOADING" })
         }
     }
 
@@ -122,7 +129,8 @@ const Register = () => {
             user: false,
             escort: true,
             error: ""
-        })
+        });
+        dispatch({ type: "STOP LOADING" })
     }
 
     const handleTypeSelect = (type) => {

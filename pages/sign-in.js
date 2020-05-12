@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { loginUser } from '../firebase/firebase.auth';
-//import { useUserStatus } from '../helper/hooks.utils'
+import { StateContext } from '../context/app.context'
 import Router from 'next/router';
 import Layout from '../containers/layout/layout.container';
 import Card from '../containers/auth.card/auth.card.container';
@@ -11,6 +11,7 @@ import style from '../styles/signin.module.scss';
 
 
 const SignIn = () => {
+    const { dispatch } = useContext(StateContext);
 
     const [formState, setFormState] = useState({
         email: "",
@@ -22,6 +23,7 @@ const SignIn = () => {
 
     const handleSubmit = async (evt) => {
         evt.preventDefault()
+        dispatch({ type: "START LOADING" })
         const { email, password, escort } = formState;
         let user;
         if (escort) {
@@ -30,6 +32,8 @@ const SignIn = () => {
             user = await loginUser(email, password, 'users')
         }
         if (user.error) {
+            dispatch({ type: "STOP LOADING" })
+
             return setFormState({
                 ...formState,
                 error: user.error
@@ -46,7 +50,8 @@ const SignIn = () => {
             user: false,
             escort: true,
             error: ""
-        })
+        });
+        dispatch({ type: "STOP LOADING" });
     }
 
     const handleChange = ({ target }) => {
