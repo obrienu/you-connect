@@ -21,7 +21,6 @@ import {
 library.add(fab, fas, far, faImages, faRegistered, faSignOutAlt, faSignInAlt, faHandsHelping, faCheckSquare, faCoffee, faLaptopHouse, faSearch, faAddressBook, faUser, faBlog, faShoppingCart)
 
 export default function App({ Component, pageProps }) {
-
     return (
         <StateContextProvider>
             <Component {...pageProps} />
