@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../context/auth.context'
+import React from 'react';
 import Layout from '../containers/layout/layout.container';
 
 const Home = () => {
-  const { isAuthenticated } = useContext(AuthContext);
   return (
     <div className="container">
       <Layout>

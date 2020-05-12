@@ -26,11 +26,10 @@ const SignIn = () => {
         dispatch({ type: "START LOADING" })
         const { email, password, escort } = formState;
         let user;
-        if (escort) {
-            user = await loginUser(email, password, 'escorts')
-        } else {
-            user = await loginUser(email, password, 'users')
-        }
+        const type = escort ? "escorts" : "users"
+
+        user = await loginUser(email, password, type);
+        console.log(user)
         if (user.error) {
             dispatch({ type: "STOP LOADING" })
 
@@ -40,7 +39,7 @@ const SignIn = () => {
             })
         }
         resetForm();
-        return Router.push('/profile');
+        return Router.push(`/${type}/${user.user.uid}`);
     }
 
     const resetForm = () => {

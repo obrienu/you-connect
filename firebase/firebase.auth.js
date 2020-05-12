@@ -20,13 +20,15 @@ export const registerNewUser = async (obj, type) => {
         const { email, password, mobile } = obj;
         delete obj.password;
         delete obj.cpassword;
+        const photoURL = "https://firebasestorage.googleapis.com/v0/b/x-app-bef0a.appspot.com/o/utils%2Fimages%2Favatar.png?alt=media&token=e7deb4ec-50e4-4731-88d4-192afbaa887e"
+        obj.photoURL = photoURL;
         const userAuth = await auth.createUserWithEmailAndPassword(email, password)
         const result = await addUserType({ email, type });
         const manageUser = await auth.currentUser;
         await manageUser.sendEmailVerification();
         await manageUser.updateProfile({
             displayName: obj.displayName,
-            photoURL: "https://firebasestorage.googleapis.com/v0/b/x-app-bef0a.appspot.com/o/utils%2Fimages%2Favatar.png?alt=media&token=e7deb4ec-50e4-4731-88d4-192afbaa887e",
+            photoURL,
             phoneNumber: mobile,
             userType: type
         });

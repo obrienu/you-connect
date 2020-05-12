@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { AuthContext } from '../../context/auth.context';
 import style from './mobile.header.module.scss';
 import Links from '../link/link.component';
 import Logo from '../logo/logo.component';
@@ -8,8 +7,7 @@ import { StateContext } from '../../context/app.context';
 const MobileHeader = ({ isMobile }) => {
 
 
-    const { isAuthenticated } = useContext(AuthContext);
-    const { mobileMenu } = useContext(StateContext);
+    const { mobileMenu, isAuthenticated, accountType } = useContext(StateContext);
     const userLoggedLinks = (
         <>
             <Links isMobile={isMobile}
@@ -20,18 +18,24 @@ const MobileHeader = ({ isMobile }) => {
                 icon={["far", "comments"]} pagePath="/">
                 messages
             </Links>
-            <Links isMobile={isMobile}
-                icon="images" pagePath="/">
-                gallery
+            {
+                accountType === "escorts" &&
+                <>
+                    <Links isMobile={isMobile}
+                        icon="images" pagePath="/">
+                        gallery
             </Links>
-            <Links isMobile={isMobile}
-                icon="business-time" pagePath="/">
-                services
+                    <Links isMobile={isMobile}
+                        icon="business-time" pagePath="/">
+                        services
             </Links>
-            <Links isMobile={isMobile}
-                icon={["fas", "star-half-alt"]} pagePath="/">
-                reviews
+                    <Links isMobile={isMobile}
+                        icon={["fas", "star-half-alt"]} pagePath="/">
+                        reviews
             </Links>
+                </>
+            }
+
             <Links
                 isMobile={isMobile}
                 isSignOut={true}
