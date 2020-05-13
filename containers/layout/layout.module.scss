@@ -1,10 +1,9 @@
-@import '../../styles/config';
+@import "../../styles/config";
 
+.layout {
+  min-height: calc(100vh - 3rem);
 
-.layout{
-    min-height: calc(100vh - 3rem);
-
-    @include mediaLg{
-        min-height: calc(100vh - 7rem);
-    }
+  @include mediaLg {
+    min-height: calc(100vh - 7rem);
+  }
 }
