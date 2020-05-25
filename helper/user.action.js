@@ -1,12 +1,4 @@
 import { firestore, auth } from '../firebase/firebase';
+import React, { useContext } from 'react';
+import { StateContext } from '../context/app.context';
 
-
-export const getProfile = async (id, type) => {
-    const userRef = await firestore.collection(type).doc(params.id);
-    const user = await userRef.get();
-    if (user.exists) {
-        return { ...user.data(), id }
-    } else {
-        return null;
-    }
-};

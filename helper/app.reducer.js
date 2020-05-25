@@ -45,6 +45,12 @@ export const stateReducer = (state, action) => {
                 isLoading: false,
                 accountType: action.payload,
             });
+        case "SET PROFILE":
+            return ({
+                ...state,
+                isLoading: false,
+                profile: action.payload,
+            });
         default:
             return state;
     }

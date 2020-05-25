@@ -16,7 +16,7 @@ const isAuthenticated = "loading";
 const accountType = null;
 export function StateContextProvider(props) {
 
-    const [state, dispatch] = useReducer(stateReducer, { isAuthenticated, accountType, isLoading: false, mobileMenu: false, desktopMenu: false, userState, search, })
+    const [state, dispatch] = useReducer(stateReducer, { isAuthenticated, accountType, isLoading: false, mobileMenu: false, desktopMenu: false, ...userState, search, })
 
     useEffect(() => {
         async function onChange(user) {

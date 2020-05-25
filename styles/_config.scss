@@ -8,6 +8,14 @@ $text-green: #5cf69a;
 $button-green: #82b440;
 $button-orange: #f09c20;
 $background-green: #5bd8fc;
+$sunset1: #1e2121;
+$sunset2: #3a4242;
+$sunset3: #546161;
+$sunset4: #788484;
+$sunset5: #a7aeae;
+$sunset6: #d7d9d9;
+$sunset7: #ffffff;
+
 $background-gradient: linear-gradient(
   38deg,
   rgba(29, 45, 70, 1) 0%,
@@ -37,3 +45,6 @@ $background-alt: rgb(29, 45, 70);
     @content;
   }
 }
+
+/* font-family: 'Dancing Script', cursive;
+font-family: 'Roboto', sans-serif; */
