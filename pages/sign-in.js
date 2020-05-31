@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { loginUser } from '../firebase/firebase.auth';
 import { StateContext } from '../context/app.context'
 import Router from 'next/router';
 import Layout from '../containers/layout/layout.container';
@@ -7,47 +6,56 @@ import Card from '../containers/auth.card/auth.card.container';
 import Input from '../components/custom.input/custom.input.component';
 import Button from '../components/custom.button/custom.button.component';
 import style from '../styles/signin.module.scss';
-
+import { loginValidator } from '../helper/auth.input.validator';
+import { useCookies } from 'react-cookie';
 
 
 const SignIn = () => {
     const { dispatch } = useContext(StateContext);
+    const [cookies, setCookie] = useCookies(['token']);
 
     const [formState, setFormState] = useState({
         email: "",
         password: "",
-        user: false,
-        escort: true,
         error: ""
-    })
+    });
 
     const handleSubmit = async (evt) => {
-        evt.preventDefault()
-        dispatch({ type: "START LOADING" })
-        const { email, password, escort } = formState;
-        let user;
-        const type = escort ? "escorts" : "users"
+        try {
+            evt.preventDefault();
+            dispatch({ type: "START LOADING" });
+            const { email, password } = formState;
+            const body = { email, password };
+            const validate = loginValidator(body)
+            if (validate) {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (data) {
+                    setCookie('token', data.token);
+                    dispatch({
+                        type: "SET AUTH",
+                        payload: data,
 
-        user = await loginUser(email, password, type);
-        console.log(user)
-        if (user.error) {
-            dispatch({ type: "STOP LOADING" })
-
+                    });
+                    resetForm();
+                }
+            }
+        } catch (error) {
             return setFormState({
                 ...formState,
                 error: user.error
             })
         }
-        resetForm();
-        return Router.push(`/${type}/${user.user.uid}`);
+        //return Router.push(`/${type}/${user.user.uid}`);
     }
 
     const resetForm = () => {
         setFormState({
             email: "",
             password: "",
-            user: false,
-            escort: true,
             error: ""
         });
         dispatch({ type: "STOP LOADING" });
@@ -61,26 +69,6 @@ const SignIn = () => {
             error: ""
         })
     }
-
-    const handleTypeSelect = (type) => {
-        switch (type) {
-            case 'user':
-                return setFormState({
-                    ...formState,
-                    user: true,
-                    escort: false
-                });
-            case 'escort':
-                return setFormState({
-                    ...formState,
-                    user: false,
-                    escort: true
-                });
-            default:
-                return formState
-        }
-    }
-
 
     const errorIndicator = (
         <div
@@ -98,24 +86,6 @@ const SignIn = () => {
                     <Card>
                         <div className="headerMd">
                             Sign In
-                        </div>
-                        <div className="authTypeSection mt">
-                            <Button
-                                onClick={
-                                    () => handleTypeSelect('escort')
-                                }
-                                block={true}
-                                isActive={formState.escort}
-                                type="text"
-                            >HELLO</Button>
-                            <Button
-                                onClick={
-                                    () => handleTypeSelect('user')
-                                }
-                                block={true}
-                                isActive={formState.user}
-                                type="text"
-                            >USER</Button>
                         </div>
                         {formState.error && errorIndicator}
                         <form
@@ -145,7 +115,6 @@ const SignIn = () => {
                                     LOGIN
                             </Button>
                             </div>
-
                         </form>
                     </Card>
                 </div>

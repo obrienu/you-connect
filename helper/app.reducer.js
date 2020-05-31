@@ -1,6 +1,5 @@
-import { cleanUserData } from '../helper/reducer.helpers'
-
 export const stateReducer = (state, action) => {
+
     switch (action.type) {
         case "OPEN MOBILE":
             return ({
@@ -32,25 +31,25 @@ export const stateReducer = (state, action) => {
                 ...state,
                 isLoading: false,
             });
-        case "LOAD AUTH":
-            const data = action.payload ? cleanUserData(action.payload) : null
+        case "SET AUTH":
             return ({
                 ...state,
-                isLoading: false,
-                isAuthenticated: data,
+                user: action.payload.user,
+                token: action.payload.token,
+                isAuthenticated: true,
+                isLoading: false
             });
-        case "LOAD ACCOUNT TYPE":
-            return ({
+        case "REGISTER FAIL":
+        case "AUTH ERROR":
+        case "LOGOUT SUCCESS":
+        case "LOGIN FAIL":
+            return {
                 ...state,
+                token: null,
+                isAuthenticated: null,
                 isLoading: false,
-                accountType: action.payload,
-            });
-        case "SET PROFILE":
-            return ({
-                ...state,
-                isLoading: false,
-                profile: action.payload,
-            });
+                user: null
+            };
         default:
             return state;
     }

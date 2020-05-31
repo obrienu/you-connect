@@ -4,40 +4,28 @@ import Layout from '../containers/layout/layout.container';
 import Card from '../containers/auth.card/auth.card.container';
 import Input from '../components/custom.input/custom.input.component';
 import Button from '../components/custom.button/custom.button.component';
-import CustomSelect from '../components/custome.select/custom.select.component';
-import Textarea from '../components/custom.textarea/custom.textarea.component';
 import style from '../styles/signin.module.scss';
-import { states, gender, bodyType } from '../helper/select.options';
 import { userInputValidator } from '../helper/auth.input.validator';
-import { registerNewUser } from '../firebase/firebase.auth';
-import { StateContext } from '../context/app.context'
+import { StateContext } from '../context/app.context';
+import { useCookies } from 'react-cookie';
 
 const Register = () => {
-
+    const [cookies, setCookie] = useCookies(['token']);
     const { dispatch } = useContext(StateContext);
 
     const [formState, setFormState] = useState({
-        displayName: "",
+        username: "",
         email: "",
         password: "",
         cpassword: "",
-        mobile: "",
-        sex: "",
-        birthdate: "",
-        location: "",
-        bodyType: "",
-        bio: "Enter Bio. This will appear on every search",
-        user: false,
-        escort: true,
+        isAdmin: false,
+        adminCode: "",
         error: ""
-    })
+    });
 
 
     const handleChange = ({ target }) => {
         const { value, name } = target;
-        if (name === 'bio' && value.length > 150) {
-            return null
-        };
         setFormState({
             ...formState,
             [name]: value,
@@ -45,107 +33,78 @@ const Register = () => {
         })
     }
 
-    const handleSubmit = (evt) => {
+    const handleSubmit = async (evt) => {
         evt.preventDefault();
         dispatch({ type: "START LOADING" })
-        const { displayName,
-            email,
-            password,
-            cpassword,
-            mobile,
-            sex,
-            birthdate,
-            location,
-            bodyType,
-            bio,
-            user,
-        } = formState
-        const obj = {
-            displayName,
-            email,
-            password,
-            cpassword,
-            mobile,
-            sex,
-            birthdate,
-            location,
-        }
-        if (user) {
-            return handleUserReg(obj)
-        }
-
-        const escortObj = { ...obj, bodyType, bio }
-        return handleEscortReg(escortObj)
-    }
-
-    const handleUserReg = async (obj) => {
         try {
-            userInputValidator(obj)
-            const registered = await registerNewUser(obj, 'users')
-            if (registered.error) {
-                throw new Error(registered.error)
+            const {
+                username,
+                email,
+                password,
+                cpassword,
+                isAdmin,
+                adminCode
+            } = formState;
+            const validated = userInputValidator(formState);
+            if (validated) {
+                const body = {
+                    username,
+                    email,
+                    password,
+                    cpassword,
+                    isAdmin,
+                    adminCode
+                };
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    body: JSON.stringify(body),
+                });
+                const data = await res.json();
+                if (data.Error) {
+                    throw new Error(data.Error)
+                }
+                console.log(data);
+                setCookie('token', data.token);
+                dispatch({
+                    type: "SET AUTH",
+                    payload: data,
+
+                });
+                resetState();
             }
-            resetState();
-            return Router.push('/sign-in')
-        } catch (err) {
+        } catch (error) {
+            dispatch({ type: "STOP LOADING" });
             setFormState({
                 ...formState,
-                error: err.message
+                error: error.message
             })
-            dispatch({ type: "STOP LOADING" })
-        }
-    }
-
-    const handleEscortReg = async (obj) => {
-        try {
-            userInputValidator(obj)
-            const registered = await registerNewUser(obj, 'escorts');
-            if (registered.error) {
-                throw new Error(registered.error)
-            }
-            resetState();
-            return Router.push('/sign-in')
-        } catch (err) {
-            setFormState({
-                ...formState,
-                error: err.message
-            })
-            dispatch({ type: "STOP LOADING" })
         }
     }
 
     const resetState = () => {
         setFormState({
-            displayName: "",
+            username: "",
             email: "",
             password: "",
             cpassword: "",
-            mobile: "",
-            sex: "",
-            birthdate: "",
-            location: "",
-            bodyType: "",
-            bio: "Enter Bio. This will appear on every search",
-            user: false,
-            escort: true,
-            error: ""
+            isAdmin: false,
+            adminCode: "",
+            error: "",
         });
         dispatch({ type: "STOP LOADING" })
     }
 
     const handleTypeSelect = (type) => {
         switch (type) {
-            case 'user':
+            case 'admin':
                 return setFormState({
                     ...formState,
-                    user: true,
-                    escort: false
+                    isAdmin: true,
                 });
-            case 'escort':
+            case 'author':
                 return setFormState({
                     ...formState,
-                    user: false,
-                    escort: true
+                    isAdmin: false,
                 });
             default:
                 return formState
@@ -156,10 +115,10 @@ const Register = () => {
     const userForm = (
         <>
             <Input
-                name="displayName"
+                name="username"
                 type="text"
-                placeholder="Display Name"
-                value={formState.displayName}
+                placeholder="User Name"
+                value={formState.username}
                 onChange={handleChange}
                 required={true}
             />
@@ -168,14 +127,6 @@ const Register = () => {
                 type="email"
                 placeholder="Email"
                 value={formState.email}
-                onChange={handleChange}
-                required={true}
-            />
-            <Input
-                name="mobile"
-                type="tel"
-                placeholder="Mobile"
-                value={formState.mobile}
                 onChange={handleChange}
                 required={true}
             />
@@ -195,48 +146,11 @@ const Register = () => {
                 onChange={handleChange}
                 required={true}
             />
-            <CustomSelect
-                options={gender}
-                label="Select Gender"
-                name="sex"
-                value={formState.sex}
-                onChange={handleChange}
-                required={true}
-            />
-            <div className={style.label}>Date of Birth</div>
             <Input
-                name="birthdate"
-                type="date"
-                placeholder="Birth Date"
-                value={formState.birthdate}
-                onChange={handleChange}
-                required={true}
-            />
-
-            <CustomSelect
-                options={states}
-                label="Select Location"
-                name="location"
-                value={formState.location}
-                onChange={handleChange}
-                required={true}
-            />
-        </>
-    )
-
-    const escortForm = (
-        <>
-            <CustomSelect
-                options={bodyType}
-                label="Select Body Type"
-                name="bodyType"
-                value={formState.bodyType}
-                onChange={handleChange}
-                required={true}
-            />
-            <Textarea
-                value={formState.bio}
-                name="bio"
+                name="adminCode"
+                type="password"
+                placeholder="admin Code"
+                value={formState.adminCode}
                 onChange={handleChange}
                 required={true}
             />
@@ -263,27 +177,26 @@ const Register = () => {
                         <div className="authTypeSection mt">
                             <Button
                                 onClick={
-                                    () => handleTypeSelect('escort')
+                                    () => handleTypeSelect('admin')
                                 }
                                 block={true}
-                                isActive={formState.escort}
+                                isActive={formState.isAdmin}
                                 type="text"
-                            >HELLO</Button>
+                            >ADMIN</Button>
                             <Button
                                 onClick={
-                                    () => handleTypeSelect('user')
+                                    () => handleTypeSelect('author')
                                 }
                                 block={true}
-                                isActive={formState.user}
+                                isActive={!formState.isAdmin}
                                 type="text"
-                            >USER</Button>
+                            >AUTHOR</Button>
                         </div>
                         {formState.error && errorIndicator}
                         <form
                             onSubmit={handleSubmit}
                         >
                             {userForm}
-                            {formState.escort && escortForm}
                             <div style={{ width: "90%", margin: "auto" }}>
                                 <Button
                                     type="submit"

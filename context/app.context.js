@@ -1,42 +1,63 @@
 import React, { createContext, useReducer, useEffect } from 'react';
 import { stateReducer } from '../helper/app.reducer'
-import { auth } from '../firebase/firebase';
+import { useCookies } from 'react-cookie';
 
 export const StateContext = createContext();
 
-const userState = {
-    profile: null,
-    messages: [],
-    reviews: [],
-    about: null,
-};
-
-const search = [];
-const isAuthenticated = "loading";
-const accountType = null;
 export function StateContextProvider(props) {
 
-    const [state, dispatch] = useReducer(stateReducer, { isAuthenticated, accountType, isLoading: false, mobileMenu: false, desktopMenu: false, ...userState, search, })
+    const [cookies, setCookie] = useCookies(['token']);
+
+    const getHeaderConfig = () => {
+        const config = {
+            headers: {
+                "Content-type": "application/json"
+            }
+        };
+        return config;
+    };
+
+    const { headers } = getHeaderConfig();
+
+    const isAuthenticated = false;
+
+
+    const [state, dispatch] = useReducer(stateReducer, { isAuthenticated, isLoading: false, mobileMenu: false, desktopMenu: false, user: null, token: cookies.token })
 
     useEffect(() => {
-        async function onChange(user) {
-            dispatch({
-                type: "LOAD AUTH",
-                payload: user
-            });
-            if (user) {
-                const { claims: { accountType } } = await user.getIdTokenResult();
-                dispatch({
-                    type: "LOAD ACCOUNT TYPE",
-                    payload: accountType
+        let isMounted = true
+        async function onChange(userInfo) {
+            if (userInfo.Error) {
+                setCookie('token', null);
+                return dispatch({
+                    type: "AUTH ERROR",
                 });
             }
-
+            const { user, token } = userInfo;
+            setCookie('token', token);
+            dispatch({
+                type: "SET AUTH",
+                payload: { user, token }
+            });
         }
 
-        const unsubscribeAuth = auth.onAuthStateChanged(onChange)
+        async function getUser() {
+            const res = await fetch("/api/user", {
+                method: "GET",
+                headers
+            });
+            const userInfo = await res.json();
+
+            if (isMounted) {
+                console.log(userInfo);
+                return onChange(userInfo);
+            }
+        }
+
+        getUser();
+
         return () => {
-            unsubscribeAuth();
+            isMounted = false;
         }
     }, [isAuthenticated])
 

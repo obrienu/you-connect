@@ -4,14 +4,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import style from './link.module.scss';
 import { StateContext } from '../../context/app.context';
-import { auth } from '../../firebase/firebase';
+import { useCookies } from 'react-cookie';
 
 const Links = (props) => {
     const { icon, pagePath, dropdown, isMobile, isSignOut } = props;
     const { dispatch } = useContext(StateContext);
+    const [cookies, setCookie] = useCookies(['token']);
+
     const handleClick = async () => {
         if (isSignOut) {
-            await auth.signOut();
+            setCookie('token', null)
+            dispatch({
+                type: "LOGOUT SUCCESS"
+            });
             Router.push("/");
         };
 
